@@ -18,13 +18,13 @@
 
 #include <stdbool.h>
 
-#include "athlete.h"
+#include "hosts.h"
 
 /** Key type definition. Change according to the use-case. */
 typedef char* MapKey;
 
 /** Value type definition. Change according to the use-case. */
-typedef Athlete MapValue;
+typedef Host MapValue;
 
 /**
  * @brief Prints a key.

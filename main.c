@@ -8,10 +8,13 @@
 #include "medals.h"
 #include "hosts.h"
 #include "input.h"
+#include "load_a.h"
 
 void showCommands();
 
 int main() {
+    PtList athleteList = listCreate();
+
     char command[30];
 
     while (true) {
@@ -24,9 +27,12 @@ int main() {
         if (strcmp(command, "QUIT") == 0) {
             printf("Exiting the program.\n");
 
+            listDestroy(&athleteList);
+
             break;
         } else if (strcmp(command, "LOAD_A") == 0) {
-
+            int importedCount = loadAthletes("athletes.csv", athleteList);
+            printf("%d athlete records imported.\n", importedCount);
         } else if (strcmp(command, "LOAD_M") == 0) {
 
         } else if (strcmp(command, "LOAD_H") == 0) {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "medal.h"
+#include "athletes.h"
 
-typedef Medal ListElem;
+typedef Athlete ListElem;
 
 void listElemPrint(ListElem elem);

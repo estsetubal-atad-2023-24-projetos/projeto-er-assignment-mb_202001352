@@ -8,9 +8,9 @@ void mapKeyPrint(MapKey key) {
 }
 
 void mapValuePrint(MapValue value) {
-    printf("ID: %s, Name: %s, Games: %d, First Game: %s, Birth: %d",
-           value.athleteID, value.athleteName, value.gamesParticipations,
-           value.firstGame, value.athleteBirth);
+    printf("Game Slug: %s, Game End Date: %s, Game Start Date: %s, Game Location: %s,  Game Name: %s, Game Season: %s, Game Year: %d",
+           value.gameSlug, value.gameEndDate, value.gameStartDate,
+           value.gameLocation, value.gameName, value.gameSeason, value.gameYear);
 }
 
 int mapKeyCompare(MapKey key1, MapKey key2) {
