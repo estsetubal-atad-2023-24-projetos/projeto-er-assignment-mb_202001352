@@ -1,10 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "load_a.h"
 #include "athletes.h"
 
-int loadAthletes(char *filename, PtList list) {
+int loadAthletes(const char *filename, PtList list) {
     FILE *file = fopen(filename, "r");
     if (!file) {
         printf("File not found\n");
@@ -14,7 +15,6 @@ int loadAthletes(char *filename, PtList list) {
     char line[256];
     int athleteCount = 0;
 
-    // Ignorar a primeira linha (cabeçalho)
     fgets(line, sizeof(line), file);
 
     while (fgets(line, sizeof(line), file)) {
@@ -33,7 +33,13 @@ int loadAthletes(char *filename, PtList list) {
             athleteBirth = atoi(birthYearStr);
 
         Athlete athlete = athleteCreate(athleteID, athleteName, gamesParticipations, yearFirstParticipation, athleteBirth);
-        listAdd(list, listSize(list, NULL), athlete);
+
+        if (listAdd(list, athleteCount, athlete) != LIST_OK) {
+            printf("Failed to add athlete to the list\n");
+            fclose(file);
+            return athleteCount;
+        }
+
         athleteCount++;
     }
 
