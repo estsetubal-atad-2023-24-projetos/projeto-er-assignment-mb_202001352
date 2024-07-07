@@ -14,6 +14,7 @@ void showCommands();
 
 int main() {
     PtList athleteList = listCreate();
+    PtMap map = mapCreate();
 
     char command[30];
 
@@ -36,7 +37,7 @@ int main() {
         } else if (strcmp(command, "LOAD_M") == 0) {
 
         } else if (strcmp(command, "LOAD_H") == 0) {
-
+            loadHosts("hosts.csv", map);
         } else if (strcmp(command, "CLEAR") == 0) {
 
         } else if (strcmp(command, "SHOW_ALL") == 0) {
