@@ -9,6 +9,7 @@
 #include "hosts.h"
 #include "input.h"
 #include "load_a.h"
+#include "show.h"
 
 void showCommands();
 
@@ -19,8 +20,8 @@ int main() {
     char command[30];
 
     while (true) {
-        printf("Chose a command: ");
-        readString(command, 15);
+        printf("Choose a command: ");
+        readString(command, 30);
 
         for (int i = 0; command[i]; i++)
             command[i] = toupper(command[i]);
@@ -29,33 +30,37 @@ int main() {
             printf("Exiting the program.\n");
 
             listDestroy(&athleteList);
+            mapDestroy(&map);
 
             break;
         } else if (strcmp(command, "LOAD_A") == 0) {
             int importedCount = loadAthletes("athletes.csv", athleteList);
             printf("%d athlete records imported.\n", importedCount);
         } else if (strcmp(command, "LOAD_M") == 0) {
-
+            
         } else if (strcmp(command, "LOAD_H") == 0) {
             loadHosts("hosts.csv", map);
         } else if (strcmp(command, "CLEAR") == 0) {
-
+            
         } else if (strcmp(command, "SHOW_ALL") == 0) {
-
+            
         } else if (strcmp(command, "SHOW_PARTICIPATIONS") == 0) {
-
+            int minParticipations;
+            printf("Enter the minimum number of participations: ");
+            scanf("%d", &minParticipations);
+            showParticipations(athleteList, minParticipations);
         } else if (strcmp(command, "SHOW_FIRST") == 0) {
-
+            
         } else if (strcmp(command, "SHOW_HOST") == 0) {
-
+            
         } else if (strcmp(command, "DISCIPLINE_STATISTICS") == 0) {
-
+            
         } else if (strcmp(command, "ATHLETE_INFO") == 0) {
-
+            
         } else if (strcmp(command, "TOPN") == 0) {
-
+            
         } else if (strcmp(command, "MEDALS_WON") == 0) {
-
+            
         } else if (strcmp(command, "HELP") == 0)
             showCommands();
         else
@@ -68,7 +73,7 @@ int main() {
 /**
  * @brief Displays the available commands.
  * This function prints a list of commands that can be used in the program.
-*/
+ */
 void showCommands() {
     printf("Commands:\n");
     printf("LOAD_A\n");
