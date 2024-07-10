@@ -1,12 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "list.h"
-#include "athletes.h"
+#include "map.h"
+#include "hosts.h"
+#include "show.h"
 
 #define PAGE_SIZE 10
 
+//SHOW_PARTICIPATIONS
 int compareAthletesByName(Athlete a, Athlete b) {
     return strcmp(a.athleteName, b.athleteName);
 }
@@ -128,4 +132,29 @@ void showParticipations(PtList athleteList, int minParticipations) {
     printf("Completed printing filtered list\n");
 
     listDestroy(&filteredList);
+}
+
+//SHOW_HOST
+void showHost(PtMap map, const char *gameSlug) {
+    Host host;
+    int result = mapGet(map, (char*)gameSlug, &host);
+
+    if (result == MAP_OK) {
+        char city[100];
+        sscanf(host.gameName, "%99[^0-9]", city);
+
+        struct tm startDate = {0}, endDate = {0};
+        strptime(host.gameStartDate, "%Y-%m-%dT%H:%M:%SZ", &startDate);
+        strptime(host.gameEndDate, "%Y-%m-%dT%H:%M:%SZ", &endDate);
+        time_t start = mktime(&startDate);
+        time_t end = mktime(&endDate);
+        double seconds = difftime(end, start);
+        int days = seconds / (60 * 60 * 24);
+
+        printf("City of hosting: %s\n", city);
+        printf("Year: %d\n", host.gameYear);
+        printf("Country of hosting: %s\n", host.gameLocation);
+        printf("Event Duration in days: %d\n", days);
+    } else
+        printf("No edition found\n");
 }

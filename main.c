@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "list.h"
 #include "map.h"
@@ -8,14 +9,14 @@
 #include "medals.h"
 #include "hosts.h"
 #include "input.h"
-#include "load_a.h"
+#include "load.h"
 #include "show.h"
 
 void showCommands();
 
 int main() {
     PtList athleteList = listCreate();
-    PtMap map = mapCreate();
+    PtMap hostsMap = mapCreate();
 
     char command[30];
 
@@ -30,7 +31,7 @@ int main() {
             printf("Exiting the program.\n");
 
             listDestroy(&athleteList);
-            mapDestroy(&map);
+            mapDestroy(&hostsMap);
 
             break;
         } else if (strcmp(command, "LOAD_A") == 0) {
@@ -39,7 +40,7 @@ int main() {
         } else if (strcmp(command, "LOAD_M") == 0) {
             
         } else if (strcmp(command, "LOAD_H") == 0) {
-            loadHosts("hosts.csv", map);
+            loadHosts("hosts.csv", hostsMap);
         } else if (strcmp(command, "CLEAR") == 0) {
             
         } else if (strcmp(command, "SHOW_ALL") == 0) {
@@ -52,7 +53,10 @@ int main() {
         } else if (strcmp(command, "SHOW_FIRST") == 0) {
             
         } else if (strcmp(command, "SHOW_HOST") == 0) {
-            
+            char editionName[100];
+            printf("Enter the edition name: ");
+            readString(editionName, 100);
+            showHost(hostsMap, editionName);
         } else if (strcmp(command, "DISCIPLINE_STATISTICS") == 0) {
             
         } else if (strcmp(command, "ATHLETE_INFO") == 0) {

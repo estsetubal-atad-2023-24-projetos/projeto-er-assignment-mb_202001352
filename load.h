@@ -1,7 +1,8 @@
-#ifndef LOAD_H_H
-#define LOAD_H_H
+#ifndef LOAD_H
+#define LOAD_H
 
 #include "map.h"
+#include "list.h"
 
 /**
  * @brief Carrega os dados do arquivo hosts.csv e armazena-os no mapa.
@@ -12,4 +13,13 @@
  */
 int loadHosts(const char *filename, PtMap map);
 
-#endif // LOAD_H_H
+/**
+ * @brief Load athletes from a CSV file.
+ * 
+ * @param filename Name of the CSV file.
+ * @param list Pointer to the list where athletes will be loaded.
+ * @return The number of athletes imported.
+ */
+int loadAthletes(const char *filename, PtList list);
+
+#endif // LOAD_H
