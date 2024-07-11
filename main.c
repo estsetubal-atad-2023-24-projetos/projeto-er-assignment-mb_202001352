@@ -11,6 +11,7 @@
 #include "input.h"
 #include "load.h"
 #include "show.h"
+#include "clear.h"
 
 void showCommands();
 
@@ -30,8 +31,9 @@ int main() {
         if (strcmp(command, "QUIT") == 0) {
             printf("Exiting the program.\n");
 
-            listDestroy(&athleteList);
-            mapDestroy(&hostsMap);
+            //listDestroy(&athleteList);
+            //mapDestroy(&hostsMap);
+            clearData(athleteList, hostsMap);
 
             break;
         } else if (strcmp(command, "LOAD_A") == 0) {
@@ -42,6 +44,9 @@ int main() {
         } else if (strcmp(command, "LOAD_H") == 0) {
             loadHosts("hosts.csv", hostsMap);
         } else if (strcmp(command, "CLEAR") == 0) {
+            clearData(athleteList, hostsMap);
+            athleteList = listCreate();
+            hostsMap = mapCreate();
             
         } else if (strcmp(command, "SHOW_ALL") == 0) {
             

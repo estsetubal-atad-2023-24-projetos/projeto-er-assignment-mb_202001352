@@ -51,9 +51,11 @@ int loadHosts(const char *filename, PtMap map) {
 
         if (mapPut(map, key, host) != MAP_OK) {
             printf("Failed to insert host with key: %s\n", host.gameSlug);
-            free(key);
-        } else
+        } else {
             count++;
+        }
+
+        free(key);  
     }
 
     fclose(file);
