@@ -59,7 +59,7 @@ int loadHosts(const char *filename, PtMap map) {
     fclose(file);
     printf("%d hosts records imported\n", count);
 
-    mapPrint(map);
+    //mapPrint(map);
 
     return count;
 }
@@ -102,7 +102,7 @@ int loadAthletes(const char *filename, PtList list) {
         athleteCount++;
     }
 
-    listPrint(list);
+    //listPrint(list);
 
     fclose(file);
     return athleteCount;
