@@ -6,34 +6,51 @@
 #include "list.h"
 #include "map.h"
 #include "hosts.h"
+#include "athletes.h"
 #include "show.h"
 
-#define PAGE_SIZE 10
+#define PAGE_SIZE 20
 
 //SHOW_PARTICIPATIONS
 int compareAthletesByName(Athlete a, Athlete b) {
     return strcmp(a.athleteName, b.athleteName);
 }
 
-void printFilteredList(PtList filteredList) {
-    int filteredSize;
-    if (listSize(filteredList, &filteredSize) != LIST_OK) {
-        printf("Error getting size of filtered list\n");
+void paginate(PtList athletes) {
+    int size;
+    if (listSize(athletes, &size) != LIST_OK) {
+        printf("Error getting size of athlete list\n");
         return;
     }
 
-    if (filteredSize == 0)
-        printf("No athletes found with the specified minimum participations\n");
-    else {
-        for (int i = 0; i < filteredSize; i++) {
+    printf("Number of records found: %d\n", size);
+    if (size == 0) {
+        return;
+    }
+
+    int totalPages = (size + PAGE_SIZE - 1) / PAGE_SIZE;
+    for (int page = 0; page < totalPages; page++) {
+        printf("Page %d/%d\n", page + 1, totalPages);
+        for (int i = 0; i < PAGE_SIZE && (page * PAGE_SIZE + i) < size; i++) {
             Athlete athlete;
-            if (listGet(filteredList, i, &athlete) != LIST_OK) {
-                printf("Error getting athlete for printing at index %d\n", i);
-                return;
+            if (listGet(athletes, page * PAGE_SIZE + i, &athlete) == LIST_OK) {
+                athletePrint(athlete);
             }
-            athletePrint(athlete);
+        }
+
+        if (page < totalPages - 1) {
+            char next;
+            printf("Press 'n' for next page, or any other key to stop: ");
+            scanf(" %c", &next);
+            if (next != 'n' && next != 'N') {
+                break;
+            }
         }
     }
+}
+
+void printFilteredList(PtList filteredList) {
+    paginate(filteredList);
 }
 
 void sortFilteredList(PtList filteredList) {
@@ -43,25 +60,18 @@ void sortFilteredList(PtList filteredList) {
         return;
     }
 
+    // Using Bubble Sort for simplicity
     for (int i = 0; i < filteredSize - 1; i++) {
         for (int j = 0; j < filteredSize - i - 1; j++) {
             Athlete athlete1, athlete2;
-            if (listGet(filteredList, j, &athlete1) != LIST_OK) {
-                printf("Error getting athlete1 at index %d\n", j);
+            if (listGet(filteredList, j, &athlete1) != LIST_OK || listGet(filteredList, j + 1, &athlete2) != LIST_OK) {
+                printf("Error getting athletes at index %d and %d\n", j, j + 1);
                 return;
             }
-            if (listGet(filteredList, j + 1, &athlete2) != LIST_OK) {
-                printf("Error getting athlete2 at index %d\n", j + 1);
-                return;
-            }
+
             if (compareAthletesByName(athlete1, athlete2) > 0) {
-                printf("Swapping %s and %s at indices %d and %d\n", athlete1.athleteName, athlete2.athleteName, j, j + 1);
-                if (listSet(filteredList, j, athlete2, NULL) != LIST_OK) {
-                    printf("Error setting athlete2 at index %d\n", j);
-                    return;
-                }
-                if (listSet(filteredList, j + 1, athlete1, NULL) != LIST_OK) {
-                    printf("Error setting athlete1 at index %d\n", j + 1);
+                if (listSet(filteredList, j, athlete2, NULL) != LIST_OK || listSet(filteredList, j + 1, athlete1, NULL) != LIST_OK) {
+                    printf("Error swapping athletes at index %d and %d\n", j, j + 1);
                     return;
                 }
             }
@@ -91,15 +101,8 @@ PtList filterAthletesByParticipation(PtList athleteList, int minParticipations) 
         }
 
         if (athlete.gamesParticipations >= minParticipations) {
-            int filteredListSize;
-            if (listSize(filteredList, &filteredListSize) != LIST_OK) {
-                printf("Error getting size of filtered list\n");
-                listDestroy(&filteredList);
-                return NULL;
-            }
-
-            if (listAdd(filteredList, filteredListSize, athlete) != LIST_OK) {
-                printf("Error adding athlete to filtered list at index %d\n", filteredListSize);
+            if (listAdd(filteredList, listSize(filteredList, &size), athlete) != LIST_OK) {
+                printf("Error adding athlete to filtered list\n");
                 listDestroy(&filteredList);
                 return NULL;
             }
@@ -151,10 +154,12 @@ void showHost(PtMap map, const char *gameSlug) {
         double seconds = difftime(end, start);
         int days = seconds / (60 * 60 * 24);
 
+        printf("----------------------\n");
         printf("City of hosting: %s\n", city);
         printf("Year: %d\n", host.gameYear);
         printf("Country of hosting: %s\n", host.gameLocation);
         printf("Event Duration in days: %d\n", days);
+        printf("----------------------\n");
     } else
         printf("No edition found\n");
 }
