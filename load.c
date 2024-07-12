@@ -51,17 +51,15 @@ int loadHosts(const char *filename, PtMap map) {
 
         if (mapPut(map, key, host) != MAP_OK) {
             printf("Failed to insert host with key: %s\n", host.gameSlug);
-        } else {
+            free(key);
+        } else
             count++;
-        }
-
-        free(key);  
     }
 
     fclose(file);
     printf("%d hosts records imported\n", count);
 
-    //mapPrint(map);
+    mapPrint(map);
 
     return count;
 }
@@ -107,7 +105,7 @@ int loadAthletes(const char *filename, PtList list) {
         athleteCount++;
     }
 
-    //listPrint(list);
+    listPrint(list);
 
     fclose(file);
     return athleteCount;
