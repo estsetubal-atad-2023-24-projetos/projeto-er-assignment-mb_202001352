@@ -80,15 +80,18 @@ int loadAthletes(const char *filename, PtList list) {
         char athleteID[MAX_ID_LENGTH];
         char athleteName[MAX_NAME_LENGTH];
         int gamesParticipations;
-        int yearFirstParticipation;
-        int athleteBirth;
+        char firstGame[MAX_GAME_LENGTH];
         char birthYearStr[10];
 
-        sscanf(line, "%[^;];%[^;];%d;%d;%[^;\n]", athleteID, athleteName, &gamesParticipations, &yearFirstParticipation, birthYearStr);
+        sscanf(line, "%[^;];%[^;];%d;%[^;];%[^;\n]", athleteID, athleteName, &gamesParticipations, firstGame, birthYearStr);
 
-        if (strcmp(birthYearStr, "") == 0)
-            athleteBirth = 0;
-        else
+        int yearFirstParticipation = 0;
+        if (strlen(firstGame) > 0) {
+            sscanf(firstGame, "%*[^0-9]%d", &yearFirstParticipation);
+        }
+
+        int athleteBirth = 0;
+        if (strcmp(birthYearStr, "") != 0)
             athleteBirth = atoi(birthYearStr);
 
         Athlete athlete = athleteCreate(athleteID, athleteName, gamesParticipations, yearFirstParticipation, athleteBirth);
