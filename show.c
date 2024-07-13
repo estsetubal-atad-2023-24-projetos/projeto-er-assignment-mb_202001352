@@ -11,11 +11,6 @@
 
 #define PAGE_SIZE 20
 
-//SHOW_PARTICIPATIONS
-int compareAthletesByName(Athlete a, Athlete b) {
-    return strcmp(a.athleteName, b.athleteName);
-}
-
 void paginate(PtList athletes) {
     int size;
     if (listSize(athletes, &size) != LIST_OK) {
@@ -49,6 +44,11 @@ void paginate(PtList athletes) {
     }
 }
 
+//SHOW_PARTICIPATIONS
+int compareAthletesByName(Athlete a, Athlete b) {
+    return strcmp(a.athleteName, b.athleteName);
+}
+
 void printFilteredList(PtList filteredList) {
     paginate(filteredList);
 }
@@ -60,7 +60,6 @@ void sortFilteredList(PtList filteredList) {
         return;
     }
 
-    // Using Bubble Sort for simplicity
     for (int i = 0; i < filteredSize - 1; i++) {
         for (int j = 0; j < filteredSize - i - 1; j++) {
             Athlete athlete1, athlete2;
@@ -101,7 +100,8 @@ PtList filterAthletesByParticipation(PtList athleteList, int minParticipations) 
         }
 
         if (athlete.gamesParticipations >= minParticipations) {
-            if (listAdd(filteredList, listSize(filteredList, &size), athlete) != LIST_OK) {
+            printf("Adding athlete: %s, Participations: %d\n", athlete.athleteName, athlete.gamesParticipations);
+            if (listAdd(filteredList, listSize(filteredList, &size) == LIST_OK ? size : 0, athlete) != LIST_OK) {
                 printf("Error adding athlete to filtered list\n");
                 listDestroy(&filteredList);
                 return NULL;
@@ -158,7 +158,7 @@ void showHost(PtMap map, const char *gameSlug) {
         printf("City of hosting: %s\n", city);
         printf("Year: %d\n", host.gameYear);
         printf("Country of hosting: %s\n", host.gameLocation);
-        printf("Event Duration in days: %d\n", days);
+        printf("Event duration in days: %d\n", days);
         printf("----------------------\n");
     } else
         printf("No edition found\n");

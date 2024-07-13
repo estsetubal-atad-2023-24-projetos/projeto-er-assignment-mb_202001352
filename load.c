@@ -59,7 +59,7 @@ int loadHosts(const char *filename, PtMap map) {
     fclose(file);
     printf("%d hosts records imported\n", count);
 
-    //mapPrint(map);
+    mapPrint(map);
 
     return count;
 }
@@ -73,39 +73,58 @@ int loadAthletes(const char *filename, PtList list) {
 
     char line[256];
     int athleteCount = 0;
+    int lineNumber = 0;
 
     fgets(line, sizeof(line), file);
 
     while (fgets(line, sizeof(line), file)) {
-        char athleteID[MAX_ID_LENGTH];
-        char athleteName[MAX_NAME_LENGTH];
-        int gamesParticipations;
-        char firstGame[MAX_GAME_LENGTH];
-        char birthYearStr[10];
+        lineNumber++;
+        char athleteID[MAX_ID_LENGTH] = "";
+        char athleteName[MAX_NAME_LENGTH] = "";
+        int gamesParticipations = 0;
+        char firstGame[MAX_GAME_LENGTH] = "";
+        char birthYearStr[10] = "";
 
-        sscanf(line, "%[^;];%[^;];%d;%[^;];%[^;\n]", athleteID, athleteName, &gamesParticipations, firstGame, birthYearStr);
+        char *token = strtok(line, ";");
+        if (token != NULL) strcpy(athleteID, token);
+        
+        token = strtok(NULL, ";");
+        if (token != NULL) strcpy(athleteName, token);
+        
+        token = strtok(NULL, ";");
+        if (token != NULL) gamesParticipations = atoi(token);
+        
+        token = strtok(NULL, ";");
+        if (token != NULL) strcpy(firstGame, token);
+        
+        token = strtok(NULL, ";");
+        if (token != NULL) strcpy(birthYearStr, token);
 
-        int yearFirstParticipation = 0;
-        if (strlen(firstGame) > 0) {
-            sscanf(firstGame, "%*[^0-9]%d", &yearFirstParticipation);
+        if (strlen(athleteID) == 0 || strlen(athleteName) == 0) {
+            printf("Error parsing line %d: %s\n", lineNumber, line);
+            continue;
         }
 
+        int yearFirstParticipation = 0;
+        if (strlen(firstGame) > 0)
+            sscanf(firstGame, "%*[^0-9]%d", &yearFirstParticipation);
+
         int athleteBirth = 0;
-        if (strcmp(birthYearStr, "") != 0)
+        if (strlen(birthYearStr) > 0)
             athleteBirth = atoi(birthYearStr);
 
         Athlete athlete = athleteCreate(athleteID, athleteName, gamesParticipations, yearFirstParticipation, athleteBirth);
 
-        if (listAdd(list, athleteCount, athlete) != LIST_OK) {
-            printf("Failed to add athlete to the list\n");
-            fclose(file);
-            return athleteCount;
+        int addResult = listAdd(list, athleteCount, athlete);
+        if (addResult != LIST_OK) {
+            printf("Failed to add athlete at line %d to the list, error code: %d\n", lineNumber, addResult);
+            continue;
         }
 
         athleteCount++;
     }
 
-    //listPrint(list);
+    listPrint(list);
 
     fclose(file);
     return athleteCount;
