@@ -56,7 +56,10 @@ int main() {
             scanf("%d", &minParticipations);
             showParticipations(athleteList, minParticipations);
         } else if (strcmp(command, "SHOW_FIRST") == 0) {
-            
+            int year;
+            printf("Enter the year: ");
+            readInteger(&year);
+            showFirst(athleteList, year);
         } else if (strcmp(command, "SHOW_HOST") == 0) {
             char editionName[100];
             printf("Enter the edition name: ");

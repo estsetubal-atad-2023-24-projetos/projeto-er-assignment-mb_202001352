@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 
+#include "input.h"
 #include "list.h"
 #include "map.h"
 #include "hosts.h"
@@ -36,7 +37,7 @@ void paginate(PtList athletes) {
         if (page < totalPages - 1) {
             char next;
             printf("Press 'n' for next page, or any other key to stop: ");
-            scanf(" %c", &next);
+            readChar(&next);
             if (next != 'n' && next != 'N') {
                 break;
             }
@@ -46,7 +47,7 @@ void paginate(PtList athletes) {
 
 //SHOW_PARTICIPATIONS
 int compareAthletesByName(Athlete a, Athlete b) {
-    return strcmp(a.athleteName, b.athleteName);
+    return strcasecmp(a.athleteName, b.athleteName);
 }
 
 void printFilteredList(PtList filteredList) {
@@ -162,4 +163,67 @@ void showHost(PtMap map, const char *gameSlug) {
         printf("----------------------\n");
     } else
         printf("No edition found\n");
+}
+
+//SHOW_FIRST
+PtList filterAthletesByFirstYear(PtList athleteList, int year) {
+    int size;
+    if (listSize(athleteList, &size) != LIST_OK) {
+        printf("Error getting size of athlete list\n");
+        return NULL;
+    }
+
+    PtList filteredList = listCreate();
+    if (filteredList == NULL) {
+        printf("Error creating filtered list\n");
+        return NULL;
+    }
+
+    for (int i = 0; i < size; i++) {
+        Athlete athlete;
+        if (listGet(athleteList, i, &athlete) != LIST_OK) {
+            printf("Error getting athlete from list at index %d\n", i);
+            listDestroy(&filteredList);
+            return NULL;
+        }
+
+        if (athlete.yearFirstParticipation == year) {
+            int filteredSize;
+            if (listSize(filteredList, &filteredSize) != LIST_OK) {
+                printf("Error getting size of filtered list\n");
+                listDestroy(&filteredList);
+                return NULL;
+            }
+            if (listAdd(filteredList, filteredSize, athlete) != LIST_OK) {
+                printf("Error adding athlete to filtered list\n");
+                listDestroy(&filteredList);
+                return NULL;
+            }
+        }
+    }
+
+    return filteredList;
+}
+void showFirst(PtList athleteList, int year) {
+    PtList filteredList = filterAthletesByFirstYear(athleteList, year);
+    if (filteredList == NULL) {
+        return;
+    }
+
+    int filteredSize;
+    if (listSize(filteredList, &filteredSize) != LIST_OK) {
+        printf("Error getting size of filtered list\n");
+        listDestroy(&filteredList);
+        return;
+    }
+
+    if (filteredSize == 0) {
+        printf("No athletes whose first participation was at %d\n", year);
+        listDestroy(&filteredList);
+        return;
+    }
+
+    sortFilteredList(filteredList);
+    paginate(filteredList);
+    listDestroy(&filteredList);
 }

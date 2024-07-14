@@ -113,7 +113,9 @@ int listSet(PtList list, int rank, ListElem elem, ListElem *ptOldElem) {
 	if (list == NULL) return LIST_NULL;
 	if (rank < 0 || rank > list->size - 1) return LIST_INVALID_RANK;
 
-	*ptOldElem = list->elements[rank];
+	if (ptOldElem != NULL) {
+    *ptOldElem = list->elements[rank];
+}
 
 	list->elements[rank] = elem;
 

@@ -8,4 +8,5 @@ void showParticipations(PtList athleteList, int minParticipations);
 
 void showHost(PtMap map, const char *gameSlug);
 
+void showFirst(PtList athleteList, int year);
 #endif // SHOW_H
