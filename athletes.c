@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-
 #include "athletes.h"
 
 Athlete athleteCreate(char *id, char *name, int participations, int firstParticipation, int birthYear) {

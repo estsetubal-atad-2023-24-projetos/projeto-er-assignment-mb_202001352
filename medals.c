@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-
 #include "medals.h"
 
 Medal medalCreate(char *discipline, char *game, char *eventTitle, char *gender, char medalType, char participantType, char *athleteID, char *country) {
