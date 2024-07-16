@@ -54,6 +54,7 @@ void printFilteredList(PtList filteredList) {
     paginate(filteredList);
 }
 
+
 void sortFilteredList(PtList filteredList) {
     int filteredSize;
     if (listSize(filteredList, &filteredSize) != LIST_OK) {
@@ -70,7 +71,8 @@ void sortFilteredList(PtList filteredList) {
             }
 
             if (compareAthletesByName(athlete1, athlete2) > 0) {
-                if (listSet(filteredList, j, athlete2, NULL) != LIST_OK || listSet(filteredList, j + 1, athlete1, NULL) != LIST_OK) {
+                Athlete oldElem;
+                if (listSet(filteredList, j, athlete2, &oldElem) != LIST_OK || listSet(filteredList, j + 1, athlete1, &oldElem) != LIST_OK) {
                     printf("Error swapping athletes at index %d and %d\n", j, j + 1);
                     return;
                 }
@@ -204,6 +206,7 @@ PtList filterAthletesByFirstYear(PtList athleteList, int year) {
 
     return filteredList;
 }
+
 void showFirst(PtList athleteList, int year) {
     PtList filteredList = filterAthletesByFirstYear(athleteList, year);
     if (filteredList == NULL) {
