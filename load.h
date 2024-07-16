@@ -22,4 +22,6 @@ int loadHosts(const char *filename, PtMap map);
  */
 int loadAthletes(const char *filename, PtList list);
 
+int loadMedals(const char *filename, PtList list);
+
 #endif // LOAD_H
