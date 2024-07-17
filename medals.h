@@ -1,26 +1,39 @@
-#ifndef MEDALS_H
-#define MEDALS_H
+#ifndef MEDAL_H
+#define MEDAL_H
 
 #define MAX_DISC_LENGTH 50
 #define MAX_GAME_LENGTH 50
 #define MAX_EVENT_LENGTH 100
 #define MAX_ID_A_LENGTH 50
 #define MAX_COUNTRY_LENGTH 50
-#define MAX_GENDER 20
+#define MAX_COUNTRY_CODE_LENGTH 4
 
+/**
+ * @brief Structure representing a medal.
+ * 
+ * This structure represents a medal awarded in Olympic Games.
+ * It includes information such as discipline, game, event title, gender, medal type,
+ * participant type, athlete ID, country, and country code.
+ */
 typedef struct medal {
     char discipline[MAX_DISC_LENGTH]; // Modalidade
-    char game[MAX_GAME_LENGTH]; // Nome da edição dos jogos olímpicos
-    char eventTitle[MAX_EVENT_LENGTH]; // Título da prova
-    char gender[MAX_GENDER]; // Género da prova
+    char game[MAX_GAME_LENGTH]; // Nome da edição dos jogos olímpicos ( ex beijing-2022)
+    char eventTitle[MAX_EVENT_LENGTH]; // Titulo da prova ( ex Women's Ski cross)
+    char gender; // M - Men, W- Women, X – Mixed, O - Open
     char medalType; // G - GOLD, S - SILVER, B - BRONZE
     char participantType; // A - Athlete, G - GameTeam
     char athleteID[MAX_ID_A_LENGTH]; // Identificador de cada atleta
     char country[MAX_COUNTRY_LENGTH]; // País pelo qual o atleta competiu
+    char countryCode[MAX_COUNTRY_CODE_LENGTH]; // Código do país
 } Medal;
 
-Medal medalCreate(char *discipline, char *game, char *eventTitle, char *gender, char medalType, char participantType, char *athleteID, char *country);
+typedef struct medalList {
+    Medal *medals;
+    int size;
+} MedalList;
 
+Medal createMedal(const char* discipline, const char* game, const char* eventTitle, char gender, char medalType, char participantType, const char* athleteID, const char* country, const char* countryCode);
 void medalPrint(Medal medal);
+void printAllMedals(MedalList medalList);
 
-#endif // MEDALS_H
+#endif // MEDAL_H

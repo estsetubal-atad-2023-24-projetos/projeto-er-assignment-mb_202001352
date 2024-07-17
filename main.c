@@ -19,6 +19,10 @@ int main() {
     PtList athleteList = listCreate();
     PtMap hostsMap = mapCreate();
 
+    MedalList medalList;
+    medalList.medals = NULL;
+    medalList.size = 0;
+
     char command[30];
 
     while (true) {
@@ -40,7 +44,8 @@ int main() {
             int importedCount = loadAthletes("athletes.csv", athleteList);
             printf("%d athlete records imported.\n", importedCount);
         } else if (strcmp(command, "LOAD_M") == 0) {
-            
+            if (loadMedals("medals.csv", &medalList.medals, &medalList.size) == 0)
+                printAllMedals(medalList);
         } else if (strcmp(command, "LOAD_H") == 0) {
             loadHosts("hosts.csv", hostsMap);
         } else if (strcmp(command, "CLEAR") == 0) {

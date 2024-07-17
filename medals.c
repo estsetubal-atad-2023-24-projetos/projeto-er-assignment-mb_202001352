@@ -1,26 +1,29 @@
 #include <stdio.h>
 #include <string.h>
+
 #include "medals.h"
 
-Medal medalCreate(char *discipline, char *game, char *eventTitle, char *gender, char medalType, char participantType, char *athleteID, char *country) {
-    Medal medal;
-    strncpy(medal.discipline, discipline, MAX_DISC_LENGTH);
-    strncpy(medal.game, game, MAX_GAME_LENGTH);
-    strncpy(medal.eventTitle, eventTitle, MAX_EVENT_LENGTH);
-    strncpy(medal.gender, gender, MAX_GENDER);
-    medal.medalType = medalType;
-    medal.participantType = participantType;
-
-    if (participantType == 'A' && athleteID[0] == '\0')
-        strncpy(medal.athleteID, "MISSING", MAX_ID_A_LENGTH);
-    else
-        strncpy(medal.athleteID, athleteID, MAX_ID_A_LENGTH);
-    strncpy(medal.country, country, MAX_COUNTRY_LENGTH);
-    return medal;
+Medal createMedal(const char* discipline, const char* game, const char* eventTitle, char gender, char medalType, char participantType, const char* athleteID, const char* country, const char* countryCode) {
+    Medal newMedal;
+    strcpy(newMedal.discipline, discipline);
+    strcpy(newMedal.game, game);
+    strcpy(newMedal.eventTitle, eventTitle);
+    newMedal.gender = gender;
+    newMedal.medalType = medalType;
+    newMedal.participantType = participantType;
+    strcpy(newMedal.athleteID, athleteID);
+    strcpy(newMedal.country, country);
+    strcpy(newMedal.countryCode, countryCode);
+    return newMedal;
 }
 
 void medalPrint(Medal medal) {
-    printf("Discipline: %s, Game: %s, Event: %s, Gender: %s, Medal: %c, Participant: %c, AthleteID: %s, Country: %s\n",
+    printf("Discipline: %s, Game: %s, Event: %s, Gender: %c, Medal: %c, Participant: %c, AthleteID: %s, Country: %s, CountryCode: %s\n",
            medal.discipline, medal.game, medal.eventTitle, medal.gender, medal.medalType,
-           medal.participantType, medal.athleteID, medal.country);
+           medal.participantType, medal.athleteID, medal.country, medal.countryCode);
+}
+
+void printAllMedals(MedalList medalList) {
+    for (int i = 0; i < medalList.size; i++)
+        medalPrint(medalList.medals[i]);
 }

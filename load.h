@@ -3,13 +3,14 @@
 
 #include "map.h"
 #include "list.h"
+#include "medals.h"
 
 /**
- * @brief Carrega os dados do arquivo hosts.csv e armazena-os no mapa.
+ * @brief Load hosts from a CSV file.
  * 
- * @param filename Nome do arquivo CSV.
- * @param map Ponteiro para o mapa onde os dados serão armazenados.
- * @return Número de registros importados ou -1 se o arquivo não for encontrado.
+ * @param filename Name of the CSV file.
+ * @param list Pointer to the list where hosts will be loaded.
+ * @return The number of hosts imported.
  */
 int loadHosts(const char *filename, PtMap map);
 
@@ -22,6 +23,13 @@ int loadHosts(const char *filename, PtMap map);
  */
 int loadAthletes(const char *filename, PtList list);
 
-int loadMedals(const char *filename, PtList list);
+/**
+ * @brief Load medals from a CSV file.
+ * 
+ * @param filename Name of the CSV file.
+ * @param list Pointer to the arrayList where medals will be loaded.
+ * @return The number of medals imported.
+ */
+int loadMedals(const char* filename, Medal** medals, int* numMedals);
 
 #endif // LOAD_H
