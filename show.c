@@ -35,7 +35,7 @@ void paginate(PtList athletes) {
         if (page < totalPages - 1) {
             char next;
             printf("Press 'n' for next page, or any other key to stop: ");
-            readChar(&next);
+            scanf(" %c", &next);
             if (next != 'n' && next != 'N')
                 break;
         }
@@ -50,7 +50,6 @@ int compareAthletesByName(Athlete a, Athlete b) {
 void printFilteredList(PtList filteredList) {
     paginate(filteredList);
 }
-
 
 void sortFilteredList(PtList filteredList) {
     int filteredSize;
@@ -101,7 +100,13 @@ PtList filterAthletesByParticipation(PtList athleteList, int minParticipations) 
 
         if (athlete.gamesParticipations >= minParticipations) {
             printf("Adding athlete: %s, Participations: %d\n", athlete.athleteName, athlete.gamesParticipations);
-            if (listAdd(filteredList, listSize(filteredList, &size) == LIST_OK ? size : 0, athlete) != LIST_OK) {
+            int filteredSize;
+            if (listSize(filteredList, &filteredSize) != LIST_OK) {
+                printf("Error getting size of filtered list\n");
+                listDestroy(&filteredList);
+                return NULL;
+            }
+            if (listAdd(filteredList, filteredSize, athlete) != LIST_OK) {
                 printf("Error adding athlete to filtered list\n");
                 listDestroy(&filteredList);
                 return NULL;
@@ -120,6 +125,12 @@ void showParticipations(PtList athleteList, int minParticipations) {
     int filteredSize;
     if (listSize(filteredList, &filteredSize) != LIST_OK) {
         printf("Error getting size of filtered list\n");
+        listDestroy(&filteredList);
+        return;
+    }
+
+    if (filteredSize == 0) {
+        printf("No athletes found with at least %d participations\n", minParticipations);
         listDestroy(&filteredList);
         return;
     }
