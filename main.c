@@ -12,6 +12,7 @@
 #include "load.h"
 #include "show.h"
 #include "clear.h"
+#include "medals_won.h"
 
 void showCommands();
 
@@ -76,7 +77,20 @@ int main() {
         } else if (strcmp(command, "TOPN") == 0) {
             
         } else if (strcmp(command, "MEDALS_WON") == 0) {
-            
+            char country[100];
+            char gameSeason[10];
+            int firstYear;
+
+            printf("Name of the country: ");
+            readString(country, 100);
+
+            printf("Edition Season (Winter/Summer): ");
+            readString(gameSeason, 10);
+
+            printf("First year of the 5 editions: ");
+            readInteger(&firstYear);
+
+            medals_won(hostsMap, medalList, country, gameSeason, firstYear);
         } else if (strcmp(command, "HELP") == 0)
             showCommands();
         else

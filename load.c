@@ -59,6 +59,8 @@ int loadHosts(const char *filename, PtMap map) {
             count++;
     }
 
+    //mapPrint(map);
+
     fclose(file);
     printf("%d hosts records imported\n", count);
     return count;
@@ -124,6 +126,8 @@ int loadAthletes(const char *filename, PtList list) {
         athleteCount++;
     }
 
+    //listPrint(list);
+
     fclose(file);
     return athleteCount;
 }
@@ -140,7 +144,7 @@ int loadMedals(const char* filename, Medal** medals, int* numMedals) {
     *numMedals = 0;
     *medals = (Medal*) malloc(capacity * sizeof(Medal));
 
-    fgets(line, MAX_LINE_LENGTH, file); // Skip header
+    fgets(line, MAX_LINE_LENGTH, file);
 
     while (fgets(line, MAX_LINE_LENGTH, file)) {
         if (*numMedals >= capacity) {
@@ -181,9 +185,9 @@ int loadMedals(const char* filename, Medal** medals, int* numMedals) {
         }
         
         if (token != NULL) {
-            if (strlen(token) == 0) {
+            if (strlen(token) == 0)
                 strcpy(currentMedal->athleteID, "MISSING");
-            } else {
+            else {
                 strncpy(currentMedal->athleteID, token, sizeof(currentMedal->athleteID) - 1);
                 currentMedal->athleteID[sizeof(currentMedal->athleteID) - 1] = '\0';
             }
@@ -200,10 +204,8 @@ int loadMedals(const char* filename, Medal** medals, int* numMedals) {
             currentMedal->countryCode[sizeof(currentMedal->countryCode) - 1] = '\0';
         }
 
-        // Ajuste final: Se participantType for 'A' e athleteID estiver vazio, atribuir "MISSING"
-        if (currentMedal->participantType == 'A' && strcmp(currentMedal->athleteID, "MISSING") == 0) {
+        if (currentMedal->participantType == 'A' && strcmp(currentMedal->athleteID, "MISSING") == 0)
             strcpy(currentMedal->athleteID, "MISSING");
-        }
 
         (*numMedals)++;
     }

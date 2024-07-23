@@ -72,4 +72,3 @@ void readString(char *charArr, unsigned int maxChars);
  * @return char** pointer array (of size nFields) to string "tokens".
  */
 char** splitString(char *string, int nTokens, const char *delim);
-
