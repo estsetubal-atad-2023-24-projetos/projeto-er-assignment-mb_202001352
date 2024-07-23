@@ -126,4 +126,3 @@ static void removeNewline(char *s) {
 		s[len - 1] = '\0';
 	}
 }
-
