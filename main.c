@@ -13,6 +13,7 @@
 #include "show.h"
 #include "clear.h"
 #include "medals_won.h"
+#include "athleteinfo.h"
 
 void showCommands();
 
@@ -73,7 +74,7 @@ int main() {
         } else if (strcmp(command, "DISCIPLINE_STATISTICS") == 0) {
             
         } else if (strcmp(command, "ATHLETE_INFO") == 0) {
-            
+            athleteInfo(athleteList, medalList);
         } else if (strcmp(command, "TOPN") == 0) {
             
         } else if (strcmp(command, "MEDALS_WON") == 0) {
