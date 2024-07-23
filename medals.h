@@ -35,5 +35,6 @@ typedef struct medalList {
 Medal createMedal(const char* discipline, const char* game, const char* eventTitle, char gender, char medalType, char participantType, const char* athleteID, const char* country, const char* countryCode);
 void medalPrint(Medal medal);
 void printAllMedals(MedalList medalList);
+void destroyMedalList(MedalList *medalList);
 
 #endif // MEDAL_H

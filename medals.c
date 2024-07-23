@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "medals.h"
 
@@ -26,4 +27,10 @@ void medalPrint(Medal medal) {
 void printAllMedals(MedalList medalList) {
     for (int i = 0; i < medalList.size; i++)
         medalPrint(medalList.medals[i]);
+}
+
+void destroyMedalList(MedalList *medalList) {
+    free(medalList->medals);
+    medalList->medals = NULL;
+    medalList->size = 0;
 }

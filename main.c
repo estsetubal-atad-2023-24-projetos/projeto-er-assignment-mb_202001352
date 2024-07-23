@@ -34,12 +34,9 @@ int main() {
 
         if (strcmp(command, "QUIT") == 0) {
             printf("Exiting the program.\n");
-
-            //listDestroy(&athleteList);
-            //mapDestroy(&hostsMap);
-            clearData(athleteList, hostsMap);
-
+            clearData(athleteList, hostsMap, &medalList);
             break;
+            
         } else if (strcmp(command, "LOAD_A") == 0) {
             int importedCount = loadAthletes("athletes.csv", athleteList);
             printf("%d athlete records imported.\n", importedCount);
@@ -49,9 +46,11 @@ int main() {
         } else if (strcmp(command, "LOAD_H") == 0) {
             loadHosts("hosts.csv", hostsMap);
         } else if (strcmp(command, "CLEAR") == 0) {
-            clearData(athleteList, hostsMap);
+            clearData(athleteList, hostsMap, &medalList);
             athleteList = listCreate();
             hostsMap = mapCreate();
+           medalList.medals = NULL;
+            medalList.size = 0;
             
         } else if (strcmp(command, "SHOW_ALL") == 0) {
             
