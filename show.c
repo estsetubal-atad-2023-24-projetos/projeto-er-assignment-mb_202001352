@@ -238,10 +238,7 @@ void showFirst(PtList athleteList, int year) {
     listDestroy(&filteredList);
 }
 
-
 // SHOW_ALL
-
-
 void paginateAllAthletes(PtList athletes) {
     int size;
     if (listSize(athletes, &size) != LIST_OK) {
@@ -285,7 +282,6 @@ void paginateAllAthletes(PtList athletes) {
     }
 }
 
-
 void sortAthletes(PtList athletes) {
     int size;
     if (listSize(athletes, &size) != LIST_OK) {
@@ -316,5 +312,3 @@ void showAllAthletes(PtList athleteList) {
     sortAthletes(athleteList);
     paginateAllAthletes(athleteList);
 }
-
-

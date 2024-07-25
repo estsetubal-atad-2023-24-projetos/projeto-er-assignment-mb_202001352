@@ -5,10 +5,18 @@
 #include "map.h"
 #include "medals.h"
 
-// Declaration of the clearData function. This function takes two arguments: a pointer to an athlete list (PtList athleteList)
-// and a pointer to a hosts map (PtMap hostsMap).
-// The function is used to clear (i.e., remove all elements from) the athlete list and the hosts map.
-
+/**
+ * @brief Clear all data from the given lists and maps.
+ * 
+ * This function clears the data from the provided athlete list, hosts map, 
+ * and medal list, and prints the number of records deleted from each.
+ * 
+ * @param athleteList [in, out] pointer to the list of athletes to be cleared
+ * @param hostsMap [in, out] pointer to the map of hosts to be cleared
+ * @param medalList [in, out] pointer to the list of medals to be cleared
+ * 
+ * @return void
+ */
 void clearData(PtList athleteList, PtMap hostsMap,  MedalList *medalList);
 
 #endif

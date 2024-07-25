@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "clear.h"
 
 void clearData(PtList athleteList, PtMap hostsMap, MedalList *medalList) {
