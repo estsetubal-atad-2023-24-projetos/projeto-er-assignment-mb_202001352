@@ -237,3 +237,84 @@ void showFirst(PtList athleteList, int year) {
     paginate(filteredList);
     listDestroy(&filteredList);
 }
+
+
+// SHOW_ALL
+
+
+void paginateAllAthletes(PtList athletes) {
+    int size;
+    if (listSize(athletes, &size) != LIST_OK) {
+        printf("Error getting size of athlete list\n");
+        return;
+    }
+
+    printf("%d ATHLETES FOUND\n", size);
+    if (size == 0)
+        return;
+
+    printf(" ATHLETE ID     FULL NAME PARTICIPATIONS        FIRST PARTICIPATION BIRTH YEAR \n");
+    printf("=======================================================================\n");
+
+    int totalPages = (size + PAGE_SIZE - 1) / PAGE_SIZE;
+    for (int page = 0; page < totalPages; page++) {
+        for (int i = 0; i < PAGE_SIZE && (page * PAGE_SIZE + i) < size; i++) {
+            Athlete athlete;
+            if (listGet(athletes, page * PAGE_SIZE + i, &athlete) == LIST_OK) {
+                printf(" %s %s %d %d %d \n",
+                       athlete.athleteID,
+                       athlete.athleteName,
+                       athlete.gamesParticipations,
+                       athlete.yearFirstParticipation,
+                       athlete.athleteBirth);
+            }
+        }
+
+        if (page < totalPages - 1) {
+            printf("Lines from %d to %d\n", page * PAGE_SIZE + 1, (page + 1) * PAGE_SIZE);
+            printf("SHOWALL PAGINATED\n");
+            printf("1. Next 20\n");
+            printf("2. Return\n");
+
+            char next;
+            printf("Choose an option: ");
+            scanf(" %c", &next);
+            if (next != '1')
+                break;
+        }
+    }
+}
+
+
+void sortAthletes(PtList athletes) {
+    int size;
+    if (listSize(athletes, &size) != LIST_OK) {
+        printf("Error getting size of athlete list\n");
+        return;
+    }
+
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            Athlete athlete1, athlete2;
+            if (listGet(athletes, j, &athlete1) != LIST_OK || listGet(athletes, j + 1, &athlete2) != LIST_OK) {
+                printf("Error getting athletes at index %d and %d\n", j, j + 1);
+                return;
+            }
+
+            if (compareAthletesByName(athlete1, athlete2) > 0) {
+                Athlete oldElem;
+                if (listSet(athletes, j, athlete2, &oldElem) != LIST_OK || listSet(athletes, j + 1, athlete1, &oldElem) != LIST_OK) {
+                    printf("Error swapping athletes at index %d and %d\n", j, j + 1);
+                    return;
+                }
+            }
+        }
+    }
+}
+
+void showAllAthletes(PtList athleteList) {
+    sortAthletes(athleteList);
+    paginateAllAthletes(athleteList);
+}
+
+
