@@ -12,4 +12,10 @@ void showFirst(PtList athleteList, int year);
 
 void showParticipations(PtList athletes, int minParticipations);
 
+void paginateAllAthletes(PtList athletes);
+
+void sortAthletes(PtList athletes);
+
+void showAllAthletes(PtList athleteList);
+
 #endif // SHOW_H
