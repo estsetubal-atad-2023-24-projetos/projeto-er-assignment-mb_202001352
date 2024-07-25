@@ -55,7 +55,7 @@ int main() {
             medalList.size = 0;
             
         } else if (strcmp(command, "SHOW_ALL") == 0) {
-            
+            showAllAthletes(athleteList);            
         } else if (strcmp(command, "SHOW_PARTICIPATIONS") == 0) {
             int minParticipations;
             printf("Enter the minimum number of participations: ");
