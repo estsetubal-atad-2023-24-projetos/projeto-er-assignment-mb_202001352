@@ -38,7 +38,6 @@ int main() {
             printf("Exiting the program.\n");
             clearData(athleteList, hostsMap, &medalList);
             break;
-            
         } else if (strcmp(command, "LOAD_A") == 0) {
             int importedCount = loadAthletes("athletes.csv", athleteList);
             printf("%d athlete records imported.\n", importedCount);
